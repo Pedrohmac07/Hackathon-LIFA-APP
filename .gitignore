@@ -1,0 +1,31 @@
+# --- Geral ---
+.DS_Store
+*.log
+
+# --- Node.js (Backend & Frontend) ---
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# --- Segredos (MUITO IMPORTANTE) ---
+.env
+.env.local
+server/.env
+lifa-app/.env
+
+# --- Expo / React Native ---
+.expo/
+dist/
+web-build/
+*.jks
+*.p12
+*.key
+*.mobileprovision
+
+# --- Builds Nativas (Android/iOS) ---
+android/app/build/
+ios/Pods/
+ios/build/
+
+# --- TypeScript ---
+*.tsbuildinfo
