@@ -1,2 +1,1 @@
-export const LOCAL_IP = '192.168.0.13';
-export const API_URL = `http://${LOCAL_IP}:3000`;
+export const API_URL = `https://hackathon-lifa-app.onrender.com/`;
