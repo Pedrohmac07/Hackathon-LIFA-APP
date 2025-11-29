@@ -20,3 +20,8 @@ ios/Pods/
 ios/build/
 *.tsbuildinfo
 */config.ts
+backup.sql
+*/ca.pem
+*/*.pem
+ca.pem
+*.pem
