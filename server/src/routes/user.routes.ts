@@ -3,7 +3,6 @@ import { pool } from '../database';
 
 const router = Router();
 
-// ... rota /user/:id continua igual ...
 router.get('/user/:id', async (req: Request, res: Response) => {
   try {
     const sql = 'SELECT id, name as nome, email, balance as saldo, credit_score as score_credito FROM users WHERE id = ?';
@@ -15,10 +14,8 @@ router.get('/user/:id', async (req: Request, res: Response) => {
   }
 });
 
-// 👇 AQUI ESTÁ A CORREÇÃO DO PIX VERMELHO
 router.get('/feed/:userId', async (req, res) => {
   try {
-    // Adicionei 'type' no SELECT
     const sql = `
       SELECT id, type, description, value, category, transaction_date 
       FROM transactions 
@@ -31,7 +28,7 @@ router.get('/feed/:userId', async (req, res) => {
       id: `trans-${row.id}`,
       type: 'TRANSACTION',
       data: {
-        realType: row.type, // <--- Mandando a verdade ('entrada' ou 'saida')
+        realType: row.type,
         estabelecimento: row.description,
         valor: row.value,
         categoria: row.category,
@@ -45,7 +42,6 @@ router.get('/feed/:userId', async (req, res) => {
   }
 });
 
-// ... rota /stats continua igual ...
 router.get('/stats/:userId', async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;

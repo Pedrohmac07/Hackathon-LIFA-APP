@@ -299,7 +299,6 @@ LOCK TABLES `users` WRITE;
 set autocommit=0;
 INSERT INTO `users` VALUES
 (1,'Teste 1','teste@lifa.com','123456',1430.00,680),
-(2,'Pedro','ph374011@gmail.com','09876',500.00,400);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 commit;

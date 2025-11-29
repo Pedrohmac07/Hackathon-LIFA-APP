@@ -15,7 +15,6 @@ export const NotificationsModal = ({ visible, onClose, userId }: Props) => {
  const [notifications, setNotifications] = useState<any[]>([]);
  const [loading, setLoading] = useState(true);
 
- // Busca sempre que abrir
  useEffect(() => {
   if (visible) {
    setLoading(true);

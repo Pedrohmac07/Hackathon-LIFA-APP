@@ -7,7 +7,7 @@ import { API_URL } from '../config/api';
 import { TransactionCard } from '../components/TransactionCard';
 import { StatsModal } from '../components/StatsModal';
 import { NotificationsModal } from '../components/dashboard/NotificationsModal';
-import { ActionModal } from '../components/dashboard/ActionModal'; // <--- NOVO IMPORT
+import { ActionModal } from '../components/dashboard/ActionModal';
 import { DashboardHeader } from '../components/dashboard/DashboardHeader';
 import { BalanceSummary } from '../components/dashboard/BalanceSummary';
 import { ServicesGrid } from '../components/dashboard/ServicesGrid';
@@ -27,20 +27,19 @@ export const Dashboard = ({
  onNavigateToCards, onNavigateToInsurance, onNavigateToLoans
 }: DashboardProps) => {
 
- // --- Estados de Dados ---
+ // Estados Dados
  const [feed, setFeed] = useState<any[]>([]);
  const [user, setUser] = useState<any>(null);
  const [spendingPercent, setSpendingPercent] = useState<number>(0);
 
- // --- Estado de UI ---
+ // Estado UI
  const [refreshing, setRefreshing] = useState(false);
  const fadeAnim = useRef(new Animated.Value(0)).current;
 
- // --- Estados dos Modais ---
  const [menuVisible, setMenuVisible] = useState(false);
  const [statsVisible, setStatsVisible] = useState(false);
  const [notifVisible, setNotifVisible] = useState(false);
- const [actionVisible, setActionVisible] = useState(false); // <--- NOVO MODAL (PIX/ADMIN)
+ const [actionVisible, setActionVisible] = useState(false);
 
  const fetchData = async () => {
   try {
@@ -76,8 +75,6 @@ export const Dashboard = ({
 
  return (
   <SafeAreaView style={styles.container}>
-
-   {/* 1. TOPO FIXO */}
    <View style={styles.headerContainer}>
     <DashboardHeader
      userName={userName}
@@ -106,7 +103,6 @@ export const Dashboard = ({
     </TouchableOpacity>
    </View>
 
-   {/* 2. LISTA DE TRANSAÇÕES */}
    <Animated.View style={{ flex: 1, opacity: fadeAnim }}>
     <FlatList
      data={feed}

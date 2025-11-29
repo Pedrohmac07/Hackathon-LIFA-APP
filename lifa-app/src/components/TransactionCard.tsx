@@ -14,8 +14,6 @@ export const TransactionCard = ({ item }: { item: any }) => {
  const [insightData, setInsightData] = useState<{ insight: string, action: string | null } | null>(null);
  const [expanded, setExpanded] = useState(false);
 
- // 👇 CORREÇÃO CRÍTICA:
- // Agora usamos 'realType' que vem do backend. Se for 'saida', é vermelho. Se 'entrada', verde.
  const isSaida = item.data.realType === 'saida';
 
  const handleGetInsight = async () => {

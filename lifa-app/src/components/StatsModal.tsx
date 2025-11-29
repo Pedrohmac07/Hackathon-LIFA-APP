@@ -52,15 +52,12 @@ export const StatsModal = ({ visible, onClose, userId }: Props) => {
   }
  }, [visible]);
 
- // ✨ FUNÇÃO MÁGICA PARA RENDERIZAR NEGRITO
- // Ela quebra o texto onde tem "**" e alterna o estilo
  const renderFormattedText = (text: string) => {
   if (!text) return null;
   const parts = text.split('**');
   return (
    <Text style={styles.aiReportText}>
     {parts.map((part, index) => {
-     // Se o índice for ímpar, é o texto que estava entre asteriscos -> BOLD
      if (index % 2 === 1) {
       return <Text key={index} style={{ fontWeight: 'bold', color: '#000' }}>{part}</Text>;
      }
@@ -140,7 +137,6 @@ export const StatsModal = ({ visible, onClose, userId }: Props) => {
         </View>
        ) : (
         <View style={{ padding: 16 }}>
-         {/* Usando a nova função de renderização */}
          {renderFormattedText(report || "Não foi possível gerar a análise.")}
         </View>
        )}
@@ -172,6 +168,5 @@ const styles = StyleSheet.create({
  progressFill: { height: '100%', borderRadius: 3 },
  aiReportCard: { backgroundColor: '#FCD34D', borderRadius: 16, overflow: 'hidden', marginBottom: 40 },
  aiReportHeader: { flexDirection: 'row', alignItems: 'center', padding: 16, backgroundColor: 'rgba(0,0,0,0.05)', borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.05)' },
- // Removi o padding daqui pois movi para a View wrapper
  aiReportText: { color: '#18181B', fontSize: 14, lineHeight: 22, textAlign: 'left' }
 });

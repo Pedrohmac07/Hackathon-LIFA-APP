@@ -7,7 +7,6 @@ dotenv.config();
 const router = Router();
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-// Rota de Insight Rápido (Card)
 router.post('/generate-insight', async (req: Request, res: Response) => {
  try {
   const { descricao, valor, categoria } = req.body;
@@ -24,12 +23,10 @@ router.post('/generate-insight', async (req: Request, res: Response) => {
  } catch (e) { res.json({ insight: "Erro na análise.", action: null }); }
 });
 
-// 👇 AQUI ESTÁ A MUDANÇA DO RELATÓRIO
 router.post('/generate-report', async (req: Request, res: Response) => {
  try {
   const { userId } = req.body;
 
-  // Busca dados
   const [rows]: any = await pool.query('SELECT type, SUM(value) as total FROM transactions WHERE user_id = ? GROUP BY type', [userId]);
   const receitas = rows.find((r: any) => r.type === 'entrada')?.total || 0;
   const despesas = rows.find((r: any) => r.type === 'saida')?.total || 0;
@@ -38,7 +35,6 @@ router.post('/generate-report', async (req: Request, res: Response) => {
   const [rowsCat]: any = await pool.query("SELECT category, SUM(value) as total FROM transactions WHERE user_id = ? AND type = 'saida' GROUP BY category ORDER BY total DESC LIMIT 3", [userId]);
   const topGastos = rowsCat.map((c: any) => `${c.category}: R$${c.total}`).join(', ');
 
-  // Prompt Refinado: PROIBIDO PLACEHOLDERS
   const prompt = `
       Você é a LIFA, uma consultora financeira pessoal.
       Analise os dados reais do mês deste usuário:

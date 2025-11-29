@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, Animated, Easing, StyleSheet } from 'react-native';
-import { Banknote } from 'lucide-react-native';
+import { View, Text, Animated, Easing, StyleSheet, Image } from 'react-native';
+import icon from '../../assets/icon.png';
 
 export const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
  const scaleAnim = useRef(new Animated.Value(0)).current;
@@ -21,7 +21,13 @@ export const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
  return (
   <View style={styles.container}>
    <Animated.View style={{ transform: [{ scale: scaleAnim }, { translateY: moveAnim }], alignItems: 'center' }}>
-    <View style={styles.logo}><Banknote size={50} color="#09090B" fill="#09090B" /></View>
+    <View style={styles.logo}>
+     <Image
+      source={icon}
+      style={{ width: 50, height: 50 }}
+      resizeMode="contain"
+     />
+    </View>
     <Text style={styles.text}>LIFA</Text>
    </Animated.View>
   </View>

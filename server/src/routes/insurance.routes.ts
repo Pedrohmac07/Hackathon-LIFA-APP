@@ -3,7 +3,6 @@ import { pool } from '../database';
 
 const router = Router();
 
-// Listar Planos (Loja)
 router.get('/plans', async (req: Request, res: Response) => {
  try {
   const [rows] = await pool.query('SELECT * FROM insurance_plans');
@@ -13,7 +12,6 @@ router.get('/plans', async (req: Request, res: Response) => {
  }
 });
 
-// Meus Seguros
 router.get('/my/:userId', async (req: Request, res: Response) => {
  try {
   const sql = `
@@ -29,15 +27,12 @@ router.get('/my/:userId', async (req: Request, res: Response) => {
  }
 });
 
-// Contratar (+ Notificação)
 router.post('/buy', async (req: Request, res: Response) => {
  try {
   const { userId, planId } = req.body;
 
-  // 1. Contrata
   await pool.query('INSERT INTO user_insurances (user_id, plan_id) VALUES (?, ?)', [userId, planId]);
 
-  // 2. Gera Notificação 🔔
   await pool.query(
    `INSERT INTO notifications (user_id, title, message, type) VALUES (?, ?, ?, 'success')`,
    [userId, 'Seguro Contratado', 'Sua apólice está ativa. Você agora está protegido!']
@@ -49,7 +44,6 @@ router.post('/buy', async (req: Request, res: Response) => {
  }
 });
 
-// Cancelar
 router.delete('/cancel/:id', async (req: Request, res: Response) => {
  try {
   await pool.query('DELETE FROM user_insurances WHERE id = ?', [req.params.id]);

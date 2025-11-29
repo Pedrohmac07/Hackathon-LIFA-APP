@@ -19,7 +19,7 @@ export const ActionModal = ({ visible, onClose, userId, onSuccess }: Props) => {
  const [email, setEmail] = useState('');
  const [amount, setAmount] = useState(''); // Valor para PIX e ADD SALDO
 
- // Estados Despesa Fake (NOVOS e SEPARADOS)
+ // Estados Despesas
  const [expenseVal, setExpenseVal] = useState(''); // <--- Valor exclusivo da despesa
  const [adminDesc, setAdminDesc] = useState('');
  const [adminCat, setAdminCat] = useState('');
@@ -42,19 +42,18 @@ export const ActionModal = ({ visible, onClose, userId, onSuccess }: Props) => {
    await axios.post(`${API_URL}/admin/add-balance`, { userId, amount });
    Alert.alert("Admin", `R$ ${amount} adicionados.`);
    onSuccess(); onClose(); setAmount('');
-  } catch (e) { Alert.alert("Erro admin", "Falha ao add saldo."); }
+  } catch (e) { Alert.alert("Erro", "Falha ao add saldo."); }
   finally { setLoading(false); }
  };
 
  const handleAdminAddExpense = async () => {
-  // Validação
   if (!expenseVal || !adminDesc) return Alert.alert("Erro", "Preencha o VALOR e a DESCRIÇÃO.");
 
   setLoading(true);
   try {
    await axios.post(`${API_URL}/admin/add-expense`, {
     userId,
-    value: expenseVal, // <--- Manda o valor correto agora
+    value: expenseVal,
     description: adminDesc,
     category: adminCat || 'Outros'
    });
@@ -62,7 +61,7 @@ export const ActionModal = ({ visible, onClose, userId, onSuccess }: Props) => {
    onSuccess(); onClose();
    setExpenseVal(''); setAdminDesc(''); setAdminCat('');
   } catch (e) {
-   Alert.alert("Erro admin", "Falha ao criar gasto. Verifique o terminal do backend.");
+   Alert.alert("Erro", "Falha ao criar gasto.");
   }
   finally { setLoading(false); }
  };
@@ -86,7 +85,6 @@ export const ActionModal = ({ visible, onClose, userId, onSuccess }: Props) => {
 
      <ScrollView contentContainerStyle={styles.body}>
       {tab === 'pix' ? (
-       // === ABA PIX ===
        <View>
         <Text style={styles.label}>Para quem?</Text>
         <View style={styles.inputBox}>
@@ -113,14 +111,12 @@ export const ActionModal = ({ visible, onClose, userId, onSuccess }: Props) => {
         </TouchableOpacity>
        </View>
       ) : (
-       // === ABA ADMIN (REFEITA) ===
        <View>
         <View style={styles.adminRow}>
          <Database color="#FCD34D" size={20} />
          <Text style={styles.adminTitle}>Painel de Controle</Text>
         </View>
 
-        {/* 1. ADICIONAR SALDO */}
         <Text style={styles.label}>Injetar Dinheiro</Text>
         <View style={styles.rowInputs}>
          <View style={[styles.inputBox, { flex: 1, marginBottom: 0 }]}>
@@ -136,10 +132,8 @@ export const ActionModal = ({ visible, onClose, userId, onSuccess }: Props) => {
 
         <View style={styles.divider} />
 
-        {/* 2. CRIAR DESPESA FAKE */}
         <Text style={styles.label}>Gerar Despesa Fake</Text>
 
-        {/* INPUT DE VALOR DO GASTO (NOVO) */}
         <View style={styles.inputBox}>
          <DollarSign color="#EF4444" size={20} />
          <TextInput
@@ -194,7 +188,6 @@ const styles = StyleSheet.create({
  sendBtn: { backgroundColor: '#10B981', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 16, borderRadius: 12, marginTop: 10, gap: 10 },
  sendBtnText: { color: '#000', fontWeight: 'bold', fontSize: 16 },
 
- // Admin Styles
  adminRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 20 },
  adminTitle: { color: '#FCD34D', fontWeight: 'bold', fontSize: 16 },
  rowInputs: { flexDirection: 'row', gap: 10, marginBottom: 10 },

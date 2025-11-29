@@ -20,9 +20,8 @@ export const LoanScreen = ({ userId, onBack }: Props) => {
  // Estados do Simulador
  const [amount, setAmount] = useState('');
  const [months, setMonths] = useState(12);
- const [simulating, setSimulating] = useState(false); // Loading do botão contratar
+ const [simulating, setSimulating] = useState(false);
 
- // Busca informações do servidor (Limite + Se já tem empréstimo)
  const fetchLoanInfo = () => {
   setLoading(true);
   axios.get(`${API_URL}/loans/info/${userId}`)
@@ -33,15 +32,12 @@ export const LoanScreen = ({ userId, onBack }: Props) => {
 
  useEffect(() => { fetchLoanInfo(); }, []);
 
- // Botão "Simular e Contratar"
  const handleSimulateAndHire = () => {
   const value = parseFloat(amount);
 
-  // Validações
   if (!value || value <= 0) return Alert.alert("Erro", "Digite um valor válido.");
   if (value > info.maxLimit) return Alert.alert("Negado", `O valor máximo aprovado para seu perfil é ${formatMoney(info.maxLimit)}.`);
 
-  // Cálculo visual (3.5% Juros Simples - Regra do Hackathon)
   const rate = 0.035;
   const total = value * (1 + (rate * months));
 
@@ -55,7 +51,6 @@ export const LoanScreen = ({ userId, onBack }: Props) => {
   );
  };
 
- // Chama a API para efetivar
  const confirmHire = async () => {
   setSimulating(true);
   try {
@@ -65,7 +60,7 @@ export const LoanScreen = ({ userId, onBack }: Props) => {
     installments: months
    });
    Alert.alert("Sucesso!", "O dinheiro já está na sua conta! 💸");
-   fetchLoanInfo(); // Recarrega a tela para mostrar o card de dívida ativa
+   fetchLoanInfo();
   } catch (error) {
    Alert.alert("Erro", "Falha ao contratar empréstimo.");
   } finally {
@@ -80,7 +75,6 @@ export const LoanScreen = ({ userId, onBack }: Props) => {
  return (
   <SafeAreaView style={styles.container}>
 
-   {/* Header */}
    <View style={styles.header}>
     <TouchableOpacity onPress={onBack} style={styles.backBtn}><ArrowLeft color="#fff" size={24} /></TouchableOpacity>
     <Text style={styles.headerTitle}>Empréstimos</Text>
@@ -88,10 +82,6 @@ export const LoanScreen = ({ userId, onBack }: Props) => {
    </View>
 
    <ScrollView contentContainerStyle={{ padding: 24 }}>
-
-    {/* =============================================
-            CENÁRIO 1: USUÁRIO JÁ TEM DÍVIDA (MOSTRA O CONTRATO)
-           ============================================= */}
     {activeLoan ? (
      <View>
       <View style={styles.activeCard}>
@@ -132,12 +122,7 @@ export const LoanScreen = ({ userId, onBack }: Props) => {
      </View>
 
     ) : (
-     /* =============================================
-        CENÁRIO 2: SIMULADOR (PODE CONTRATAR)
-        ============================================= */
      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
-
-      {/* Card de Limite */}
       <View style={styles.limitCard}>
        <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
         <CheckCircle color="#10B981" size={24} />
@@ -175,7 +160,6 @@ export const LoanScreen = ({ userId, onBack }: Props) => {
        ))}
       </View>
 
-      {/* Resumo da Simulação em Tempo Real */}
       {amount ? (
        <View style={styles.simulationBox}>
         <View style={styles.simRow}>
@@ -205,7 +189,6 @@ export const LoanScreen = ({ userId, onBack }: Props) => {
       <View style={styles.disclaimerBox}>
        <Text style={styles.disclaimerText}>Crédito sujeito a análise. O valor cai na conta na hora.</Text>
       </View>
-
      </KeyboardAvoidingView>
     )}
 
@@ -221,7 +204,6 @@ const styles = StyleSheet.create({
  backBtn: { padding: 8, backgroundColor: '#18181B', borderRadius: 12 },
  headerTitle: { color: '#fff', fontSize: 18, fontWeight: 'bold' },
 
- // CARD ATIVO (Amarelo Ouro)
  activeCard: { backgroundColor: '#F59E0B', borderRadius: 24, padding: 24, marginBottom: 20, shadowColor: "#F59E0B", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 5 },
  activeHeader: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 20 },
  activeTitle: { color: '#000', fontSize: 18, fontWeight: 'bold' },
@@ -234,7 +216,6 @@ const styles = StyleSheet.create({
  payBtn: { backgroundColor: '#18181B', padding: 16, borderRadius: 16, alignItems: 'center', borderWidth: 1, borderColor: '#27272A', marginTop: 20 },
  payBtnText: { color: '#F59E0B', fontWeight: 'bold' },
 
- // SIMULADOR
  limitCard: { backgroundColor: 'rgba(16, 185, 129, 0.1)', padding: 16, borderRadius: 16, marginBottom: 30, borderWidth: 1, borderColor: 'rgba(16, 185, 129, 0.3)' },
  limitLabel: { color: '#10B981', fontSize: 12 },
  limitValue: { color: '#10B981', fontSize: 20, fontWeight: 'bold' },

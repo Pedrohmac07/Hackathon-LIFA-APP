@@ -5,7 +5,7 @@ import { Menu, Bell } from 'lucide-react-native';
 interface Props {
  userName: string;
  onMenuPress: () => void;
- onNotificationPress: () => void; // <--- Propriedade nova
+ onNotificationPress: () => void;
 }
 
 export const DashboardHeader = ({ userName, onMenuPress, onNotificationPress }: Props) => {
@@ -21,7 +21,6 @@ export const DashboardHeader = ({ userName, onMenuPress, onNotificationPress }: 
 
    <TouchableOpacity style={styles.iconBtn} onPress={onNotificationPress}>
     <Bell color="#fff" size={24} />
-    {/* Bolinha vermelha de alerta visual */}
     <View style={styles.dot} />
    </TouchableOpacity>
   </View>

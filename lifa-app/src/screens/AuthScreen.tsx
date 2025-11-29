@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ActivityIndicator, Alert, StyleSheet } from 'react-native';
-import { User, Lock, Mail, ArrowRight, Banknote } from 'lucide-react-native';
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ActivityIndicator, Alert, StyleSheet, Image } from 'react-native';
+import { User, Lock, Mail, ArrowRight } from 'lucide-react-native';
 import axios from 'axios';
 import { API_URL } from '../config/api';
+import icon from '../../assets/icon.png'
 
 export const AuthScreen = ({ onLoginSuccess }: { onLoginSuccess: (id: number, nome: string) => void }) => {
  const [isLogin, setIsLogin] = useState(true);
@@ -28,7 +29,13 @@ export const AuthScreen = ({ onLoginSuccess }: { onLoginSuccess: (id: number, no
   <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
    <View style={styles.content}>
     <View style={styles.header}>
-     <View style={styles.logo}><Banknote size={32} color="#000" /></View>
+     <View style={styles.logo}>
+      <Image
+       source={icon}
+       style={{ width: 64, height: 64 }}
+       resizeMode={'contain'}
+      />
+     </View>
      <Text style={styles.brand}>LIFA</Text>
     </View>
 

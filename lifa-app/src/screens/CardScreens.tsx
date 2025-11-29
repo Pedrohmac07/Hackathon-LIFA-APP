@@ -43,7 +43,6 @@ export const CardsScreen = ({ userId, onBack }: Props) => {
   }
  };
 
- // 🗑️ FUNÇÃO DE EXCLUIR CARTÃO
  const handleDeleteCard = (cardId: number) => {
   Alert.alert(
    "Excluir Cartão",
@@ -58,7 +57,6 @@ export const CardsScreen = ({ userId, onBack }: Props) => {
        setLoading(true);
        await axios.delete(`${API_URL}/cards/delete/${cardId}`);
 
-       // Atualiza o estado local removendo o cartão visualmente na hora
        if (activeTab === 'credito') setCards({ ...cards, credit: null });
        else setCards({ ...cards, debit: null });
 
@@ -134,10 +132,8 @@ export const CardsScreen = ({ userId, onBack }: Props) => {
        )}
       </View>
 
-      {/* AÇÕES ATUALIZADAS: EXCLUIR E COPIAR */}
       <View style={styles.actionsGrid}>
 
-       {/* Botão de Excluir */}
        <TouchableOpacity style={styles.actionBtn} onPress={() => handleDeleteCard(currentCard.id)}>
         <View style={[styles.actionIconBg, { borderColor: '#EF4444' }]}>
          <Trash2 color="#EF4444" size={24} />
@@ -145,7 +141,6 @@ export const CardsScreen = ({ userId, onBack }: Props) => {
         <Text style={[styles.actionText, { color: '#EF4444' }]}>Excluir</Text>
        </TouchableOpacity>
 
-       {/* Botão de Copiar */}
        <TouchableOpacity style={styles.actionBtn} onPress={() => Alert.alert("Copiado!", "Número do cartão copiado.")}>
         <View style={styles.actionIconBg}>
          <Copy color="#fff" size={24} />
@@ -211,8 +206,7 @@ const styles = StyleSheet.create({
  limitBarBg: { height: 8, backgroundColor: '#27272A', borderRadius: 4 },
  limitBarFill: { height: '100%', backgroundColor: '#F59E0B', borderRadius: 4 },
 
- // AÇÕES (GRID 2 BOTÕES)
- actionsGrid: { flexDirection: 'row', justifyContent: 'center', gap: 40 }, // Centralizado com espaço
+ actionsGrid: { flexDirection: 'row', justifyContent: 'center', gap: 40 },
  actionBtn: { alignItems: 'center', gap: 8 },
  actionIconBg: { width: 60, height: 60, borderRadius: 30, backgroundColor: '#18181B', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: '#27272A' },
  actionText: { color: '#A1A1AA', fontSize: 12 },

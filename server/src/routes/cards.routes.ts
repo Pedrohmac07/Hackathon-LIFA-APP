@@ -3,7 +3,6 @@ import { pool } from '../database';
 
 const router = Router();
 
-// Buscar cartões
 router.get('/:userId', async (req: Request, res: Response) => {
  try {
   const sql = `SELECT id, type, card_number, holder_name, expiration_date, limit_amount, current_invoice FROM cards WHERE user_id = ?`;
@@ -18,7 +17,6 @@ router.get('/:userId', async (req: Request, res: Response) => {
  }
 });
 
-// Criar cartão (+ Notificação)
 router.post('/create', async (req: Request, res: Response) => {
  try {
   const { userId, type } = req.body;
@@ -27,7 +25,6 @@ router.post('/create', async (req: Request, res: Response) => {
   if (users.length === 0) return res.status(404).json({ error: 'User not found' });
   const user = users[0];
 
-  // Gera dados fictícios
   const prefix = type === 'credito' ? '5502' : '4200';
   const rand = () => Math.floor(1000 + Math.random() * 9000);
   const num = `${prefix} ${rand()} ${rand()} ${rand()}`;
@@ -35,13 +32,11 @@ router.post('/create', async (req: Request, res: Response) => {
   const exp = `${String(today.getMonth() + 1).padStart(2, '0')}/${String(today.getFullYear() + 5).slice(-2)}`;
   const limit = type === 'credito' ? user.credit_score * 10 : 0;
 
-  // 1. Salva Cartão
   await pool.query(
    `INSERT INTO cards (user_id, type, card_number, holder_name, expiration_date, cvv, limit_amount, current_invoice) VALUES (?, ?, ?, ?, ?, ?, ?, 0)`,
    [userId, type, num, user.name.toUpperCase(), exp, 123, limit]
   );
 
-  // 2. Gera Notificação 🔔
   await pool.query(
    `INSERT INTO notifications (user_id, title, message, type) VALUES (?, ?, ?, 'success')`,
    [userId, 'Cartão Emitido', `Seu cartão de ${type} final ${num.slice(-4)} foi emitido e já pode ser usado!`]
@@ -53,7 +48,6 @@ router.post('/create', async (req: Request, res: Response) => {
  }
 });
 
-// Deletar cartão
 router.delete('/delete/:cardId', async (req: Request, res: Response) => {
  try {
   await pool.query('DELETE FROM cards WHERE id = ?', [req.params.cardId]);

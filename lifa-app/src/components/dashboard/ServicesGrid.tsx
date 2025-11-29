@@ -5,14 +5,13 @@ import { CreditCard, ShieldCheck, Coins } from 'lucide-react-native';
 interface Props {
  onOpenCards: () => void;
  onOpenInsurance: () => void;
- onOpenLoans: () => void; // <--- Recebe a função
+ onOpenLoans: () => void;
 }
 
 export const ServicesGrid = ({ onOpenCards, onOpenInsurance, onOpenLoans }: Props) => {
 
  return (
   <View style={styles.grid}>
-   {/* Botão de Cartões */}
    <ServiceButton
     icon={CreditCard}
     color="#A78BFA"
@@ -20,7 +19,6 @@ export const ServicesGrid = ({ onOpenCards, onOpenInsurance, onOpenLoans }: Prop
     onPress={onOpenCards}
    />
 
-   {/* Botão de Seguros */}
    <ServiceButton
     icon={ShieldCheck}
     color="#10B981"
@@ -28,7 +26,6 @@ export const ServicesGrid = ({ onOpenCards, onOpenInsurance, onOpenLoans }: Prop
     onPress={onOpenInsurance}
    />
 
-   {/* 👇 AQUI ESTAVA O ERRO: Agora chama onOpenLoans */}
    <ServiceButton
     icon={Coins}
     color="#F59E0B"

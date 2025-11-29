@@ -3,7 +3,6 @@ import { pool } from '../database';
 
 const router = Router();
 
-// Informações e Limite
 router.get('/info/:userId', async (req: Request, res: Response) => {
  try {
   const [users]: any = await pool.query('SELECT credit_score FROM users WHERE id = ?', [req.params.userId]);
@@ -18,7 +17,6 @@ router.get('/info/:userId', async (req: Request, res: Response) => {
  }
 });
 
-// Pegar Empréstimo (+ Saldo + Notificação)
 router.post('/create', async (req: Request, res: Response) => {
  try {
   const { userId, amount, installments } = req.body;
@@ -28,14 +26,11 @@ router.post('/create', async (req: Request, res: Response) => {
   const dueDate = new Date();
   dueDate.setDate(dueDate.getDate() + 30);
 
-  // 1. Cria Dívida
   const sql = `INSERT INTO loans (user_id, amount_borrowed, total_payable, installments, interest_rate, due_date) VALUES (?, ?, ?, ?, ?, ?)`;
   await pool.query(sql, [userId, amount, totalPayable, installments, rate, dueDate]);
 
-  // 2. Deposita Dinheiro (Cash In)
   await pool.query('UPDATE users SET balance = balance + ? WHERE id = ?', [amount, userId]);
 
-  // 3. Gera Notificação 🔔
   await pool.query(
    `INSERT INTO notifications (user_id, title, message, type) VALUES (?, ?, ?, 'warning')`,
    [userId, 'Dinheiro na Conta', `O empréstimo de R$ ${amount} foi aprovado e depositado!`]

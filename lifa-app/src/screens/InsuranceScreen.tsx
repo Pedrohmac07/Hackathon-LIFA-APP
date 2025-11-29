@@ -10,7 +10,6 @@ interface Props {
  onBack: () => void;
 }
 
-// Helper para escolher o ícone certo
 const getIcon = (type: string, color: string) => {
  switch (type) {
   case 'celular': return <Smartphone color={color} size={24} />;
@@ -35,8 +34,6 @@ export const InsuranceScreen = ({ userId, onBack }: Props) => {
    ]);
    setMyInsurances(myRes.data);
 
-   // Filtra para não mostrar nos "Disponíveis" o que eu já tenho (opcional, mas fica chique)
-   // Mas para hackathon, vamos mostrar tudo mesmo pra facilitar testar compra multipla
    setAvailablePlans(plansRes.data);
   } catch (error) {
    console.log(error);
@@ -99,8 +96,6 @@ export const InsuranceScreen = ({ userId, onBack }: Props) => {
     <ActivityIndicator size="large" color="#10B981" style={{ marginTop: 50 }} />
    ) : (
     <ScrollView contentContainerStyle={{ padding: 24 }}>
-
-     {/* SEÇÃO 1: MEUS SEGUROS ATIVOS */}
      <Text style={styles.sectionTitle}>Minhas Proteções</Text>
      {myInsurances.length === 0 ? (
       <View style={styles.emptyBox}>
@@ -122,7 +117,6 @@ export const InsuranceScreen = ({ userId, onBack }: Props) => {
       ))
      )}
 
-     {/* SEÇÃO 2: CATÁLOGO PARA CONTRATAR */}
      <Text style={[styles.sectionTitle, { marginTop: 30 }]}>Disponíveis para Você</Text>
      {availablePlans.map((plan) => (
       <View key={plan.id} style={styles.planCard}>
@@ -167,7 +161,6 @@ const styles = StyleSheet.create({
  activeSubtitle: { color: '#A1A1AA', fontSize: 12 },
  cancelHint: { color: '#065F46', fontSize: 10, marginTop: 10, textAlign: 'center' },
 
- // Cards de Venda (Catálogo)
  planCard: { backgroundColor: '#18181B', padding: 16, borderRadius: 20, marginBottom: 16, borderWidth: 1, borderColor: '#27272A' },
  planRow: { flexDirection: 'row', gap: 12, marginBottom: 16 },
  iconContainerPlan: { width: 40, height: 40, borderRadius: 12, backgroundColor: '#27272A', justifyContent: 'center', alignItems: 'center' },
