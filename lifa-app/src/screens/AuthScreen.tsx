@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform
 import { User, Lock, Mail, ArrowRight } from 'lucide-react-native';
 import axios from 'axios';
 import { API_URL } from '../config/api';
-import icon from '../../assets/icon.png'
+import icon from '../../assets/icon.png';
 
 export const AuthScreen = ({ onLoginSuccess }: { onLoginSuccess: (id: number, nome: string) => void }) => {
  const [isLogin, setIsLogin] = useState(true);

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 
-// Importação das Telas (Screens)
 import { SplashScreen } from './src/screens/SplashScreen';
 import { AuthScreen } from './src/screens/AuthScreen';
 import { Dashboard } from './src/screens/Dashboard';
