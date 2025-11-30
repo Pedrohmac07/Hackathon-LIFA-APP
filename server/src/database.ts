@@ -7,6 +7,11 @@ dotenv.config();
 
 const caPath = path.resolve(process.cwd(), 'ca.pem');
 
+if (!fs.existsSync(caPath)) {
+ console.error(`❌ CRÍTICO: Arquivo ca.pem não encontrado em: ${caPath}`);
+ console.error('Verifique se o arquivo está na raiz da pasta server e foi comitado no Git.');
+}
+
 export const pool = mysql.createPool({
  host: process.env.DB_HOST,
  user: process.env.DB_USER,
@@ -15,9 +20,18 @@ export const pool = mysql.createPool({
  port: Number(process.env.DB_PORT),
  ssl: {
   ca: fs.readFileSync(caPath),
-  rejectUnauthorized: true
+  rejectUnauthorized: false
  },
  waitForConnections: true,
  connectionLimit: 10,
  queueLimit: 0
 });
+
+pool.getConnection()
+ .then((conn) => {
+  console.log('SUCESSO: Conectado ao banco de dados Aiven!');
+  conn.release();
+ })
+ .catch((err) => {
+  console.error('ERRO FATAL DE CONEXÃO COM O BANCO:', err.message);
+ });
